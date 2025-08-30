@@ -7,7 +7,20 @@
 
     <!-- Primary PWA tags -->
     <link rel="manifest" href="manifest.webmanifest" />
-    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0b0b0b"  media="(prefers-color-scheme: dark)">
+    <meta name="description" content="Ứng dụng PWA giúp tra cứu và lưu thông tin xuất hoá đơn theo mã số thuế. Dùng offline, không cần đăng ký." />
+    <meta name="keywords" content="mã số thuế, tra cứu mã số thuế, thông tin xuất hoá đơn, hoá đơn điện tử, lưu thông tin hoá đơn, pwa, ứng dụng web" />
+    <meta name="author" content="The Base" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://thebase.vn/mytax/" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Tra cứu MST" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="shortcut icon" href="icons/icon-192x192.png" />
     <link rel="icon" href="icons/icon-192x192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
 
@@ -24,55 +37,15 @@
       };
     </script>
 
-    <style>
-      .card {
-        @apply bg-white/90 dark:bg-zinc-900 backdrop-blur shadow-card rounded-2xl border border-zinc-200 dark:border-zinc-800;
-      }
-      .btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-medium border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition;
-      }
-      .btn-primary {
-        @apply bg-sky-500 text-white border-transparent hover:bg-sky-600;
-      }
-      .input {
-        @apply w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-sky-500;
-        width: -webkit-fill-available; /* Safari */
-        border-radius: 4px;
-        white-space: normal;
-        overflow-wrap: anywhere;
-      }
-      .label {
-        @apply text-sm text-zinc-600 dark:text-zinc-400;
-      }
-      .kbd {
-        @apply px-2 py-1 rounded-md border border-zinc-200 dark:border-zinc-700 text-xs text-zinc-600 dark:text-zinc-300;
-      }
-      .row {
-        @apply rounded-xl border border-zinc-200 dark:border-zinc-800 p-3;
-      }
-      .badge {
-        @apply ml-2 align-middle text-[11px] px-2 py-0.5 rounded-full border;
-      }
-      .hidden-section {
-        display: none;
-      }
-
-      /* PWA nudge modal */
-      #installModal {
-        display: none;
-      }
-      #installModal.show {
-        display: flex;
-      }
-    </style>
+    <link rel="stylesheet" href="app.css">
   </head>
   <body
-    class="min-h-svh max-h-svh w-full  dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 flex flex-col items-center justify-center"
+    class="min-h-svh max-h-svh w-full bg-zinc-50  text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 flex flex-col items-center justify-center"
   >
     
-    <div id="app" class="min-h-svh max-h-svh max-w-[480px] min-w-[360px] flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 ">
+    <div id="app" class="min-h-svh max-h-svh max-w-[480px] min-w-[360px] flex flex-col bg-zinc-50  text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 ">
     <header class="container mx-auto p-4">
-      <div class="flex flex-col items-center justify-between">
+      <div class="flex flex-col items-center justify-between pt-4">
         <h1 class="text-2xl font-semibold tracking-tight">
           Thông tin xuất hoá đơn
         </h1>
@@ -195,23 +168,22 @@
           </h2> -->
           <div class="w-full flex flex-row items-center justify-start gap-2">
             <button id="backToListBtn" class="btn flex-1 text-left">← Danh sách</button>
-            <button id="qrBtn" class="btn flex flex-row"><img src="icons/qr-code.svg" class="mr-1"> QR</button>
+            <button id="qrBtn" class="btn flex flex-row">
+              <!-- <img src="icons/qr-code.svg" class="mr-1" alt="QR">  -->
+               <div class="qrcode mr-2" aria-label="QR logo"></div>
+              QR</button>
             <button id="editBtn" class="btn ">✏️ Sửa</button>
             <button id="deleteOneBtn" class="btn ">🗑️ Xoá</button>
           </div>
         </div>
 
         <div class="grid grid-cols-1 gap-3 mt-4">
-          <div class="rounded-xl border p-3">
-            <div class="text-xs text-zinc-500">Mã số thuế</div>
-            <div id="d_taxId" class="mt-1 font-medium break-words">—</div>
-          </div>
+          
           <div class="rounded-xl border p-3">
             <div class="text-xs text-zinc-500">Tên doanh nghiệp</div>
             <div id="d_name" class="mt-1 font-medium break-words">—</div>
           </div>
         </div>
-
         <div class="grid grid-cols-1 gap-3 mt-3">
           <div class="rounded-xl border p-3">
             <div class="text-xs text-zinc-500">Địa chỉ</div>
@@ -223,17 +195,10 @@
               placeholder="Nhập địa chỉ"
             ></textarea>
           </div>
-
           <div class="rounded-xl border p-3">
-            <div class="text-xs text-zinc-500">Email</div>
-            <div id="d_email_view" class="mt-1 font-medium break-words"></div>
-            <input
-              id="d_email_edit"
-              class="input mt-2 hidden text-zinc-800"
-              placeholder="Nhập email"
-            />
+            <div class="text-xs text-zinc-500">Mã số thuế</div>
+            <div id="d_taxId" class="mt-1 font-medium break-words">—</div>
           </div>
-
           <div class="rounded-xl border p-3">
             <div class="text-xs text-zinc-500">Số điện thoại</div>
             <div id="d_phone_view" class="mt-1 font-medium break-words"></div>
@@ -243,6 +208,16 @@
               placeholder="Nhập số điện thoại"
             />
           </div>
+           <div class="rounded-xl border p-3">
+            <div class="text-xs text-zinc-500">Email</div>
+            <div id="d_email_view" class="mt-1 font-medium break-words"></div>
+            <input
+              id="d_email_edit"
+              class="input mt-2 hidden text-zinc-800"
+              placeholder="Nhập email"
+            />
+          </div>
+          
         </div>
 
         
@@ -276,49 +251,81 @@
       </div>
     </div>
 
+    <!-- iOS Install Hint Modal -->
+    <div
+      id="iosInstallModal"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4"
+    >
+      <div class="card max-w-sm w-full p-5 bg-white dark:bg-zinc-900">
+        <h3 class="text-lg font-semibold">Thêm vào Màn hình chính</h3>
+        <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-2">
+          Để lưu ứng dụng trên iPhone/iPad, hãy thêm vào màn hình chính.
+        </p>
+
+        <div class="mt-4 flex gap-2">
+          <button id="iosBookmarkBtn" class="btn btn-primary flex-1">
+            📌 Bookmark ngay
+          </button>
+          <button id="iosInstallClose" class="btn flex-1">
+            Để sau
+          </button>
+        </div>
+
+        <!-- Step guide (hidden until button clicked) -->
+        <div id="iosSteps" class="mt-4 text-sm hidden">
+          <ol class="list-decimal list-inside space-y-1">
+            <li>Mở menu <strong>Chia sẻ</strong> (biểu tượng <span class="text-lg">⬆️</span>) trong Safari.</li>
+            <li>Chọn <strong>Thêm vào Màn hình chính</strong>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+
+
     <!-- QR Modal -->
-<div
-  id="qrModal"
-  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4"
->
-  <div class="card max-w-sm w-full p-5 bg-white dark:bg-zinc-900">
-    <div class="flex items-center justify-between">
-      <h3 class="text-lg font-semibold">Quét QR</h3>
-      <button id="qrClose" class="btn px-3 py-1 text-sm" type="button">✖</button>
-    </div>
+    <div
+      id="qrModal"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-4"
+    >
+      <div class="card max-w-sm w-full p-5 bg-white dark:bg-zinc-900">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold">Quét QR</h3>
+          <button id="qrClose" class="btn px-3 py-1 text-sm" type="button">✖</button>
+        </div>
 
-    <!-- Format chọn MECARD/VCARD + size -->
-    <div class="mt-3 grid grid-cols-3 gap-2">
-      <label class="label flex items-center gap-2">
-        <input type="radio" name="qrFmt" value="VCARD" checked class="accent-sky-500" /> vCard
-      </label>
-      <label class="label flex items-center gap-2">
-        <input type="radio" name="qrFmt" value="MECARD"  class="accent-sky-500" /> MeCard
-      </label>
-      <label class="label flex items-center gap-2">
-        <input type="radio" name="qrFmt" value="SIMPLE" class="accent-sky-500" /> Simple
-      </label>
-      <label class="label col-span-2 flex items-center gap-2">Kích thước
-        <select id="qrSize" class="input py-1 px-2 text-sm w-auto dark:bg-zinc-500 text-zinc-900">
-          <option value="200">200</option>
-          <option value="240" selected>240</option>
-          <option value="300">300</option>
-        </select>
-      </label>
-    </div>
+        <!-- Format chọn MECARD/VCARD + size -->
+        <div class="mt-3 grid grid-cols-3 gap-2">
+          <label class="label flex items-center gap-2">
+            <input type="radio" name="qrFmt" value="VCARD" checked class="accent-sky-500" /> vCard
+          </label>
+          <label class="label flex items-center gap-2">
+            <input type="radio" name="qrFmt" value="MECARD"  class="accent-sky-500" /> MeCard
+          </label>
+          <label class="label flex items-center gap-2">
+            <input type="radio" name="qrFmt" value="SIMPLE" class="accent-sky-500" /> Simple
+          </label>
+          <label class="label col-span-2 flex items-center gap-2">Kích thước
+            <select id="qrSize" class="input py-1 px-2 text-sm w-auto dark:bg-zinc-500 text-zinc-900">
+              <option value="200">200</option>
+              <option value="240" selected>240</option>
+              <option value="300">300</option>
+            </select>
+          </label>
+        </div>
 
-    <!-- QR code render box -->
-    <div class="mt-4 flex items-center justify-center">
-      <div id="qrBox" class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-2 bg-white "></div>
-    </div>
+        <!-- QR code render box -->
+        <div class="mt-4 flex items-center justify-center">
+          <div id="qrBox" class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-2 bg-white "></div>
+        </div>
 
-    <!-- Copy & download -->
-    <div class="mt-4 grid grid-cols-2 gap-2">
-      <button id="qrCopy" class="btn" type="button">Sao chép dữ liệu</button>
-      <a id="qrDownload" class="btn btn-primary text-center" download="mst-qr.png">Tải QR</a>
+        <!-- Copy & download -->
+        <div class="mt-4 grid grid-cols-2 gap-2">
+          <button id="qrCopy" class="btn" type="button">Sao chép dữ liệu</button>
+          <a id="qrDownload" class="btn btn-primary text-center" download="mst-qr.png">Tải QR</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
     
     <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-50"></div>

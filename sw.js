@@ -1,5 +1,5 @@
 // sw.js
-const CACHE_NAME = "tax-landing-v2";
+const CACHE_NAME = "thebase-tax-v1";
 const ROOT = "";
 
 const CORE_ASSETS = [

@@ -140,7 +140,6 @@ function buildSimple(d) {
   }
   function currentFmt(){
     const el = document.querySelector('input[name="qrFmt"]:checked');
-    console.log("fmt",el.value);
     return el.value;
   }
 
@@ -167,8 +166,6 @@ function buildSimple(d) {
           // build theo fmt đang thử
           const payload = (fmt==="VCARD") ? buildVCARD(currentData(), {asciiOnly: plan.asciiOnly})
                                           : (fmt=="MECARD")?buildMECARD(currentData(), {asciiOnly: plan.asciiOnly}):buildSimple(currentData());
-
-          console.log("trying QR:", payload);
           box.innerHTML = "";
           const q = new QRCode(box, {
             text: payload,  // 👈 dùng encode an toàn
@@ -176,8 +173,6 @@ function buildSimple(d) {
             height: size,
             correctLevel: plan.level
           });
-
-          console.log("rented QR",q);
 
           // download link (đợi DOM render xong)
           setTimeout(()=>{
@@ -204,7 +199,7 @@ function buildSimple(d) {
           return true;
         } catch (err) {
           // Nếu tràn, thử phương án tiếp theo
-          console.warn("QR fallback", fmt, plan, err);
+          // console.warn("QR fallback", fmt, plan, err);
         }
       }
     // }

@@ -1,6 +1,6 @@
 {
   "name": "Thông tin xuất hoá đơn",
-  "short_name": "Thuế PWA",
+  "short_name": "MyTax",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

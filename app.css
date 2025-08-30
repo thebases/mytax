@@ -1,0 +1,50 @@
+.card {
+        @apply bg-white/90 dark:bg-zinc-900 backdrop-blur shadow-card rounded-2xl border border-zinc-200 dark:border-zinc-800;
+      }
+      .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-medium border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition;
+      }
+      .btn-primary {
+        @apply bg-sky-500 text-white border-transparent hover:bg-sky-600;
+      }
+      .input {
+        @apply w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-sky-500;
+        width: -webkit-fill-available; /* Safari */
+        border-radius: 4px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      .label {
+        @apply text-sm text-zinc-600 dark:text-zinc-400;
+      }
+      .kbd {
+        @apply px-2 py-1 rounded-md border border-zinc-200 dark:border-zinc-700 text-xs text-zinc-600 dark:text-zinc-300;
+      }
+      .row {
+        @apply rounded-xl border border-zinc-200 dark:border-zinc-800 p-3;
+      }
+      .badge {
+        @apply ml-2 align-middle text-[11px] px-2 py-0.5 rounded-full border;
+      }
+      .hidden-section {
+        display: none;
+      }
+
+      /* PWA nudge modal */
+      #installModal {
+        display: none;
+      }
+      #installModal.show {
+        display: flex;
+      }
+
+      .qrcode {
+  width: 24px; height: 24px;
+  background: no-repeat center/contain url("icons/qr-code.svg");
+}
+
+@media (prefers-color-scheme: dark) {
+  .qrcode {
+    background-image: url("icons/qr-code-dark.svg");
+  }
+}

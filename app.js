@@ -411,3 +411,41 @@
           showOnlyQuery();
         }
       })();
+
+      // ======= iOS Add to Home Screen Hint =======
+    const iosInstallModal = document.getElementById("iosInstallModal");
+    const iosInstallClose = document.getElementById("iosInstallClose");
+    const iosBookmarkBtn = document.getElementById("iosBookmarkBtn");
+    const iosSteps = document.getElementById("iosSteps");
+
+    function isIos() {
+      return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+    }
+    function isInStandaloneMode() {
+      return ("standalone" in window.navigator) && window.navigator.standalone;
+    }
+
+    if (isIos() && !isInStandaloneMode()) {
+      // Show after a short delay (once per session)
+      if (!sessionStorage.getItem("ios_nudge_shown")) {
+        setTimeout(() => {
+          iosInstallModal.classList.remove("hidden");
+          iosInstallModal.classList.add("flex");
+          sessionStorage.setItem("ios_nudge_shown", "1");
+        }, 3000);
+      }
+    }
+
+    iosInstallClose?.addEventListener("click", () => {
+      iosInstallModal.classList.add("hidden");
+      iosInstallModal.classList.remove("flex");
+    });
+
+    
+
+    iosBookmarkBtn?.addEventListener("click", () => {
+      // Reveal the step instructions
+      iosSteps.classList.remove("hidden");
+      iosBookmarkBtn.disabled = true;
+      iosBookmarkBtn.textContent = "✅ Làm theo hướng dẫn trên";
+    });
